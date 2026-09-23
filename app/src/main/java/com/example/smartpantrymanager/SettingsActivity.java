@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SettingsActivity extends AppCompatActivity {
 
     private Switch switchDarkMode;
+
+    private Switch switchExpiryAlerts;
     private Button btnClearData;
     private Button btnBackSettings;
 
@@ -26,6 +28,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         switchDarkMode =
                 findViewById(R.id.switchDarkMode);
+
+        switchExpiryAlerts =
+                findViewById(R.id.switchExpiryAlerts);
+
 
         btnClearData =
                 findViewById(R.id.btnClearData);
@@ -72,6 +78,49 @@ public class SettingsActivity extends AppCompatActivity {
                 }
         );
 
+        boolean expiryAlerts =
+                preferences.getBoolean(
+                        "expiry_alerts",
+                        true
+                );
+
+        switchExpiryAlerts.setChecked(expiryAlerts);
+
+        switchExpiryAlerts.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> {
+
+                    preferences.edit()
+                            .putBoolean(
+                                    "expiry_alerts",
+                                    isChecked
+                            )
+                            .apply();
+
+                    if (isChecked) {
+
+                        ExpiryNotificationHelper
+                                .scheduleAllExpiryAlerts(
+                                        SettingsActivity.this
+                                );
+
+                    } else {
+
+                        ExpiryNotificationHelper
+                                .cancelAllExpiryAlerts(
+                                        SettingsActivity.this
+                                );
+                    }
+
+                    Toast.makeText(
+                            SettingsActivity.this,
+                            isChecked
+                                    ? "Expiry alerts enabled"
+                                    : "Expiry alerts disabled",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+        );
+
         btnClearData.setOnClickListener(v -> {
 
             new android.app.AlertDialog.Builder(
@@ -88,6 +137,12 @@ public class SettingsActivity extends AppCompatActivity {
 
                                 DatabaseHelper databaseHelper =
                                         new DatabaseHelper(
+                                                SettingsActivity.this
+                                        );
+
+
+                                ExpiryNotificationHelper
+                                        .cancelAllExpiryAlerts(
                                                 SettingsActivity.this
                                         );
 
