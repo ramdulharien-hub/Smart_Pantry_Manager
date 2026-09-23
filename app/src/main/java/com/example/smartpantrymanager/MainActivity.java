@@ -3,6 +3,11 @@ package com.example.smartpantrymanager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.Manifest;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -69,6 +74,12 @@ public class MainActivity extends AppCompatActivity
 
         // Create database helper
         databaseHelper = new DatabaseHelper(this);
+
+        requestNotificationPermission();
+
+        ExpiryNotificationHelper.createNotificationChannel(this);
+
+        ExpiryNotificationHelper.scheduleAllExpiryAlerts(this);
 
         // Set up RecyclerView
         recyclerPantry.setLayoutManager(
@@ -163,6 +174,11 @@ public class MainActivity extends AppCompatActivity
                 )
                 .setPositiveButton("Yes", (dialog, which) -> {
 
+                    ExpiryNotificationHelper.cancelExpiryAlert(
+                            MainActivity.this,
+                            item.getId()
+                    );
+
                     databaseHelper.deletePantryItem(
                             item.getId()
                     );
@@ -188,4 +204,25 @@ public class MainActivity extends AppCompatActivity
             loadPantryItems();
         }
     }
+
+    private void requestNotificationPermission() {
+
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{
+                                Manifest.permission.POST_NOTIFICATIONS
+                        },
+                        1001
+                );
+            }
+        }
+    }
+
 }
