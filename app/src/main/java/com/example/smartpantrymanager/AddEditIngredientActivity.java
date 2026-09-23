@@ -191,7 +191,17 @@ public class AddEditIngredientActivity extends AppCompatActivity {
         if (ingredientId == -1) {
 
             // Add new ingredient
-            databaseHelper.addPantryItem(item);
+            long newId =
+                    databaseHelper.addPantryItem(item);
+
+            // Set the database ID on the item
+            item.setId((int) newId);
+
+            // Schedule expiry notification
+            ExpiryNotificationHelper.scheduleExpiryAlert(
+                    this,
+                    item
+            );
 
             Toast.makeText(
                     this,
@@ -205,6 +215,18 @@ public class AddEditIngredientActivity extends AppCompatActivity {
             item.setId(ingredientId);
 
             databaseHelper.updatePantryItem(item);
+
+            // Cancel the old alert first
+            ExpiryNotificationHelper.cancelExpiryAlert(
+                    this,
+                    ingredientId
+            );
+
+            // Schedule the updated expiry alert
+            ExpiryNotificationHelper.scheduleExpiryAlert(
+                    this,
+                    item
+            );
 
             Toast.makeText(
                     this,
