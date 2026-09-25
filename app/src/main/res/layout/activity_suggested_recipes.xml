@@ -5,49 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp"
+    android:background="?android:attr/colorBackground">
 
+    <!-- Page title -->
     <TextView
         android:id="@+id/txtSuggestedTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Suggested Recipes"
-        android:textSize="28sp"
+        android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="?android:attr/textColorPrimary"
         android:gravity="center"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp" />
 
+    <!-- Description -->
     <TextView
         android:id="@+id/txtSuggestedInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Recipes you can make with your pantry"
         android:textSize="16sp"
-        android:textColor="#555555"
-        android:layout_marginBottom="12dp" />
+        android:textColor="?android:attr/textColorSecondary"
+        android:gravity="center"
+        android:layout_marginBottom="18dp" />
 
+    <!-- Recipe list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerRecipes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
 
+    <!-- No recipes message -->
     <TextView
         android:id="@+id/txtNoRecipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="No recipes can be made with your current pantry."
-        android:textSize="16sp"
-        android:textColor="#666666"
+        android:textSize="17sp"
+        android:textColor="?android:attr/textColorSecondary"
         android:gravity="center"
-        android:padding="16dp"
+        android:padding="24dp"
         android:visibility="gone" />
 
+    <!-- Back button -->
     <Button
         android:id="@+id/btnBack"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Back" />
+        android:layout_height="56dp"
+        android:text="←  Back"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>
