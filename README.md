@@ -220,4 +220,6 @@ The Settings screen allows users to manage:
 
 The project is organised into Android activities, layouts, database classes, adapters, and notification components.
 
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/26702b62-628e-4321-ad17-4ff63b6adfb9" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/59d80129-14d8-46fe-bfd3-13fd9ce1ffde" />
+
